@@ -1,17 +1,15 @@
 import { initializeApp } from "firebase/app";
-import 'firebase/auth'
-
+import { getAuth } from "firebase/auth"
 const firebaseConfig = {
-    apiKey: process.env.BLOG_POST_API_KEY,
-    authDomain: process.env.BLOG_POST_AUTH_DOMAIN,
-    projectId: process.env.BLOG_POST_PROJECT_ID,
-    storageBucket: process.env.BLOG_POST_STORAGE_BUCKET,
-    messagingSenderId: process.env.BLOG_POST_MESSAGING_SENDER_ID,
-    appId: process.env.BLOG_POST_APP_ID,
-    measurementId: process.env.BLOG_POST_MESSUREMENT_ID
-}
+    apiKey: 'AIzaSyA1kKshiD1SiwUBDW5KdAvQIS1-Qq2I_UA',
+    authDomain: "blog-post-app-eb1dc.firebaseapp.com",
+    projectId: "blog-post-app-eb1dc",
+    storageBucket: "blog-post-app-eb1dc.appspot.com",
+    messagingSenderId: "379049789371",
+    appId: "1:379049789371:web:7d7fadfd8684e0dd97669e",
+    measurementId: "G-BRWN4WD3R6"
+};
+
 const app = initializeApp(firebaseConfig)
 
-// export const auth = app.auth()
-// console.log(auth)
-// export default app
+export const auth = getAuth(app)

@@ -4,6 +4,7 @@ import Login from './login'
 
 export default function Home() {
   return (
+
     <div>
       <Head>
         <title>Blog-Post-App</title>
@@ -15,5 +16,7 @@ export default function Home() {
       </main>
 
     </div>
+
+
   )
 }
