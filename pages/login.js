@@ -5,25 +5,17 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from "next/link";
 import InputPass from "../components/InputPass";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth } from '../firebase'
 import AlertBox from "../components/AlertBox";
 import { useRouter } from 'next/router';
-
+import { useAuth } from '../context/AuthContext';
 
 
 const Login = () => {
     const [name, setName] = useState("")
     const [pass, setPass] = useState("")
-    const [user, setUser] = useState({})
     const [error, setError] = useState(false)
+    const { user, login } = useAuth()
     const router = useRouter();
-
-
-
-    // onAuthStateChanged(auth, (currentUser) => {
-    //     setUser(currentUser)
-    // })
 
     const handleNameChange = (e) => {
         setName(e.target.value)
@@ -33,14 +25,12 @@ const Login = () => {
 
     }
 
-    const login = async () => {
+    const handleLogin = async (e) => {
         try {
-            const user = await signInWithEmailAndPassword(auth, name, pass)
+            await login(name, pass)
             router.push('/blog')
-
-        }
-        catch (error) {
-            console.log(error.message);
+        } catch (err) {
+            console.log(err);
             setError(true)
         }
     }
@@ -67,7 +57,7 @@ const Login = () => {
                             Forget Password?
                         </p>
                     </div>
-                    <button className='w-full bg-blue-700 text-white p-2 rounded-md hover:bg-blue-600 transition-all duration-300' onClick={login}>Log In</button>
+                    <button className='w-full bg-blue-700 text-white p-2 rounded-md hover:bg-blue-600 transition-all duration-300' onClick={handleLogin}>Log In</button>
                     <p className="text-center">Don't have an account?<Link href="signup" className="underline text-blue-600">Create an Account</Link></p>
                 </div>
             </div >

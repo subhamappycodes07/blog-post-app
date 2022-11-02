@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import Input from "../components/Input";
 import Link from "next/link";
 import InputPass from '../components/InputPass';
-import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../firebase'
+import { useAuth } from '../context/AuthContext';
 
 const Signup = () => {
+
+  const { user, signup } = useAuth()
   const [fName, setFName] = useState("")
   const [lName, setLName] = useState("")
   const [signUpEmail, setSignUpEmail] = useState("")
@@ -28,15 +29,14 @@ const Signup = () => {
     setConfPassword(e.target.value)
   }
 
-  const signup = async () => {
+  const handleSignup = async (e) => {
     try {
-      const user = await createUserWithEmailAndPassword(auth, signUpEmail, password)
-      console.log(user);
-    }
-    catch (error) {
-      console.log(error.message);
+      await signup(signUpEmail, password)
+    } catch (error) {
+      console.log(error);
     }
   }
+
 
   return (
     <>
@@ -52,7 +52,7 @@ const Signup = () => {
             <InputPass placeholder="Password" required handleChange={handlePasswordChange} />
             <InputPass placeholder="Confirm password" required handleChange={handleConfPassChange} />
           </div>
-          <button className='w-full bg-blue-700 text-white p-2 rounded-md hover:bg-blue-600 transition-all duration-300' onClick={signup}>Sign Up</button>
+          <button className='w-full bg-blue-700 text-white p-2 rounded-md hover:bg-blue-600 transition-all duration-300' onClick={handleSignup}>Sign Up</button>
           <p className="text-center">Allready have an account?<Link href="login" className="underline text-blue-600">Sign In</Link></p>
         </div>
 
