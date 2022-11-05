@@ -6,16 +6,16 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from "next/link";
 import InputPass from "../components/InputPass";
 import AlertBox from "../components/AlertBox";
-import { useRouter } from 'next/router';
 import { useAuth } from '../context/AuthContext';
+import Navbar from "../components/Navbar";
+import { FirebaseError } from "firebase/app";
 
 
 const Login = () => {
     const [name, setName] = useState("")
     const [pass, setPass] = useState("")
-    const [error, setError] = useState(false)
-    const { user, login } = useAuth()
-    const router = useRouter();
+    const { user, login, loginError, setLoginError, logInFieldErr, setLogInFieldErr, router, handleMessage, errMsg, setErrMsg } = useAuth()
+
 
     const handleNameChange = (e) => {
         setName(e.target.value)
@@ -25,23 +25,38 @@ const Login = () => {
 
     }
 
+
+
     const handleLogin = async (e) => {
+        console.log(name, pass);
+        if ((name) == "" || (pass) == "") {
+            setLogInFieldErr(true)
+            return
+        }
         try {
             await login(name, pass)
             router.push('/blog')
         } catch (err) {
-            console.log(err);
-            setError(true)
+            // setErrMsg(err)
+            console.log(err.message);
+            // handleMessage(err.code);
+            setLoginError(true)
+
+            // message.split("auth/")[1]
         }
     }
     return (
         <>
+            <Navbar />
             <div className=" h-screen flex flex-col justify-center items-center ">
                 <header>
                     <h1 className="font-medium text-3xl">Log In</h1>
                 </header>
                 {
-                    error && <AlertBox bgcolor='rgb(255, 196, 196)' color="rgb(122, 46, 46)" message="Credentials didn't match" />
+                    logInFieldErr && <AlertBox bgcolor='rgb(255, 196, 196)' color="rgb(122, 46, 46)" message="input field should not empty" />
+                }
+                {
+                    loginError && <AlertBox bgcolor='rgb(255, 196, 196)' color="rgb(122, 46, 46)" message={errMsg} />
                 }
 
                 <div className="xl:w-1/4 p-8 flex flex-col gap-6  ">

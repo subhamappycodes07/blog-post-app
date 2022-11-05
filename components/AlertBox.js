@@ -1,9 +1,18 @@
 import React, { useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
+import { useAuth } from '../context/AuthContext';
 const AlertBox = ({ bgcolor, color, message }) => {
     const [show, setShow] = useState('flex')
+    const { setLoginError, setSignUpFieldErr, setLogInFieldErr, setPassReq, setEmailReq, setLengthError } = useAuth()
     const handleShow = () => {
         setShow('none')
+        setSignUpFieldErr(false)
+        setLoginError(false)
+        setLogInFieldErr(false)
+        setPassReq(false)
+        setEmailReq(false)
+        setLengthError(false)
+
     }
     return (
         <>
