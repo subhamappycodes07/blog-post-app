@@ -1,26 +1,13 @@
-
-import React from 'react'
-import { useAuth } from '../context/AuthContext'
-import Navbar from '../components/Navbar'
-import RouteProtector from '../components/RouteProtector'
+import React from "react";
+import { useAuth } from "../context/AuthContext";
 
 const blog = () => {
-    const { user } = useAuth()
-    return <>
-        <RouteProtector>
-            <div>
-                <Navbar />
-                <section>
-                    {user ? (<div>
-                        list
-                    </div>) : (<div>
-                        Hi i'am dashboard
-                    </div>)}
-                </section>
-            </div >
-        </RouteProtector>
-
+  const { user } = useAuth();
+  return (
+    <>
+      <section>{user ? <div>list</div> : <div>Hi i'am dashboard</div>}</section>
     </>
-}
+  );
+};
 
-export default blog
+export default blog;
