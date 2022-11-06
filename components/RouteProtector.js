@@ -1,24 +1,15 @@
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react'
-import { useAuth } from '../context/AuthContext'
+import React, { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const RouteProtector = ({ children }) => {
-    const { user } = useAuth();
-    const router = useRouter();
+  const { user, router } = useAuth();
 
-    useEffect(() => {
-        if (!user) {
-            router.push('/login')
-        }
-    }, [router, user])
-    return (<>
-        {
-            user ? children : null
-        }
-    </>
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router, user]);
+  return <>{user ? children : null}</>;
+};
 
-
-    )
-}
-
-export default RouteProtector
+export default RouteProtector;
