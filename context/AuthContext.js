@@ -21,8 +21,6 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(user);
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -55,8 +53,8 @@ export const AuthContextProvider = ({ children }) => {
     let alertMsg = authCode;
     alertMsg == "too-many-requests"
       ? setErrMsg(
-          "credentials did not match please create an account or try again few min later"
-        )
+        "credentials did not match please create an account or try again few min later"
+      )
       : setErrMsg(alertMsg);
   };
   const value = {

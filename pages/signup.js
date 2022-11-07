@@ -51,7 +51,7 @@ const Signup = () => {
     } else if (password !== "" && confPassword !== "") {
       if (password.length < 6) {
         setAlertActivate(true);
-        handleMessage("length should not less than 6");
+        handleMessage("password length should not less than 6");
       } else {
         if (password == confPassword) {
           try {
