@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useAuth } from '../context/AuthContext'
@@ -6,6 +6,9 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 const Card = ({ title, desc, authorName, day, month, year, id }) => {
     const { user, router, data } = useAuth();
+    useEffect(() => {
+        console.log(user)
+    }, [user])
     const handleDelete = async () => {
         try {
             for (let i = 0; i < data.length; i++) {
@@ -33,10 +36,16 @@ const Card = ({ title, desc, authorName, day, month, year, id }) => {
                     <p>Author : {authorName}</p>
                     <p>{day} {month},{year}</p>
                 </div>
-                <div className='flex gap-2'>
-                    <CreateIcon sx={{ width: '20px', height: '20px' }} className=" cursor-pointer" onClick={handleEdit} />
-                    <DeleteIcon sx={{ width: '20px', height: '20px' }} className=" cursor-pointer" onClick={handleDelete} />
-                </div>
+                {user.email === authorName ?
+                    (
+                        <div className='flex gap-2'>
+                            <CreateIcon sx={{ width: '20px', height: '20px' }} className=" cursor-pointer" onClick={handleEdit} />
+                            <DeleteIcon sx={{ width: '20px', height: '20px' }} className=" cursor-pointer" onClick={handleDelete} />
+                        </div>
+                    ) : (
+                        ""
+                    )
+                }
             </footer>
         </div>
     )
