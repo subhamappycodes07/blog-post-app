@@ -2,32 +2,41 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import AddIcon from '@mui/icons-material/Add';
 import Card from "../components/Card";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 const blog = () => {
-  const { user, router } = useAuth();
-  const [data, setData] = useState([])
+  const { user, router, data, setData } = useAuth();
+
   useEffect(() => {
-    const fetchData = async () => {
+    // const fetchData = async () => {
+    //   let list = []
+    //   try {
+
+    //     const querySnapshot = await getDocs(collection(db, "blogs"));
+    //     querySnapshot.forEach((doc) => {
+    //       list.push({ id: doc.id, ...doc.data() })
+    //     })
+    //     setData(list)
+    //     // console.log(list)
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+    // fetchData()
+
+    const updatedData = onSnapshot(collection(db, "blogs"), (snapShot) => {
       let list = []
-      try {
+      snapShot.docs.forEach((doc) => {
+        list.push({ id: doc.id, ...doc.data() })
+      })
+      setData(list)
+    },
+      (error) => {
+        console.log(error)
+      })
 
-        const querySnapshot = await getDocs(collection(db, "blogs"));
-        querySnapshot.forEach((doc) => {
-          list.push({ id: doc.id, ...doc.data() })
-        })
-        setData(list)
-        // console.log(list)
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData()
   }, [])
-
-  // console.log(user)
-  console.log(data)
   return (
     <>
       <section>{user ? <div>
@@ -40,7 +49,7 @@ const blog = () => {
         <section className="flex flex-wrap items-center gap-2 p-4">
           {
             data.map((item) => (
-              <Card key={item.id} title={item.title} desc={item.desc} authorName={item.author} date={item.timestamp.seconds} />
+              <Card key={item.id} id={item.id} title={item.title} desc={item.desc} authorName={item.author} day={item.day} month={item.month} year={item.year} />
             ))
           }
         </section>

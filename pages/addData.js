@@ -20,7 +20,12 @@ const addData = () => {
         setDesc(e.target.value);
 
     };
+    // console.log(serverTimestamp())
     const handleAdd = async () => {
+        let dateObj = new Date(),
+            month = dateObj.toLocaleString("default", { month: "short" }),
+            day = dateObj.getDate(),
+            year = dateObj.getFullYear();
         if (title == "" || desc == "") {
             setAlertActivate(true);
             handleMessage("input field should not empty");
@@ -29,12 +34,10 @@ const addData = () => {
         else {
             try {
                 const res = await addDoc(collection(db, "blogs",), {
-                    title: title, desc: desc, timestamp: serverTimestamp(), author: user.uid
+                    title: title, desc: desc, timestamp: serverTimestamp(), authorId: user.uid, author: user.email, day: day, month: month, year: year
                 });
-                console.log(res)
                 setAlertActivate(false);
-                setSuccessAlert(true)
-                handleMessage("Blog created.Please go to the blog page");
+                router.push('/blog')
                 setTitle("")
                 setDesc("")
             } catch (error) {
@@ -65,9 +68,9 @@ const addData = () => {
                             message={errMsg}
                         />
                     )}
-                    {successAlert && (
+                    {/* {successAlert && (
                         <AlertBox bgcolor="#d4edda" color="#23903c" message={errMsg} />
-                    )}
+                    )} */}
                     <Input type="text"
                         placeholder="Enter your title here" width="w-1/2" handleChange={handleTitleChange} value={title} />
                     <textarea placeholder="Enter your desc here " className="w-1/2 outline-none border border-1 border-gray-400 rounded-md p-2" onChange={handleDescChange} value={desc} />

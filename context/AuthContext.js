@@ -20,6 +20,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([])
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -70,6 +71,7 @@ export const AuthContextProvider = ({ children }) => {
     setAlertActivate,
     successAlert,
     setSuccessAlert,
+    data, setData
   };
 
   return (
