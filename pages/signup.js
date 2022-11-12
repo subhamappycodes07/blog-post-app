@@ -42,16 +42,20 @@ const Signup = () => {
     if (fName == "" || lName == "") {
       setAlertActivate(true);
       handleMessage("input field should not empty");
+      setTimeout(() => { setAlertActivate(false) }, 3000)
     } else if (signUpEmail == "") {
       setAlertActivate(true);
       handleMessage("email field should not empty");
+      setTimeout(() => { setAlertActivate(false) }, 3000)
     } else if (password == "" || confPassword == "") {
       setAlertActivate(true);
       handleMessage("password/confirm password field should not empty");
+      setTimeout(() => { setAlertActivate(false) }, 3000)
     } else if (password !== "" && confPassword !== "") {
       if (password.length < 6) {
         setAlertActivate(true);
         handleMessage("password length should not less than 6");
+        setTimeout(() => { setAlertActivate(false) }, 3000)
       } else {
         if (password == confPassword) {
           try {
@@ -64,14 +68,17 @@ const Signup = () => {
             setSignUpEmail("");
             setPassword("");
             setConfPassword("");
+            setTimeout(() => { setSuccessAlert(false) }, 3000)
           } catch (e) {
             let err = e.code.split("auth/")[1];
             handleMessage(err);
             setAlertActivate(true);
+            setTimeout(() => { setAlertActivate(false) }, 3000)
           }
         } else {
           setAlertActivate(true);
           handleMessage("password & confirm password didn't match");
+          setTimeout(() => { setAlertActivate(false) }, 3000)
         }
       }
     }

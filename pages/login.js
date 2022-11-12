@@ -34,6 +34,7 @@ const Login = () => {
     if (name == "" || pass == "") {
       handleMessage("input field should not empty");
       setAlertActivate(true);
+      setTimeout(() => { setAlertActivate(false) }, 3000)
     } else if (name != "" && pass != "") {
       try {
         await login(name, pass);
@@ -42,6 +43,7 @@ const Login = () => {
         let err = e.code.split("auth/")[1];
         handleMessage(err);
         setAlertActivate(true);
+        setTimeout(() => { setAlertActivate(false) }, 3000)
       }
     }
   };
