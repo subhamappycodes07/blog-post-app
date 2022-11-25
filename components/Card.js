@@ -8,16 +8,19 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Card = ({ title, desc, authorName, day, month, year, id }) => {
-  const { user, data } = useAuth();
+  const { user, router, setUpdateMode,
+    setIdForUpdate } = useAuth();
   const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, "blogs", id)); toast("Delete Succesfull")
+      await deleteDoc(doc(db, "blogs", id)); toast("Delete Succesfull", { autoClose: 200 })
     } catch (error) {
       console.log(error);
     }
   };
   const handleEdit = () => {
-    console.log(user.uid, data[0].authorId, data);
+    setUpdateMode(true)
+    setIdForUpdate(id)
+    router.push('/addData')
   };
   return (
     <>

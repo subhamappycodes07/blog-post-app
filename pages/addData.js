@@ -7,11 +7,14 @@ import { db } from '../config/firebase';
 import AlertBox from '../components/AlertBox';
 
 const addData = () => {
-    const { user, router, successAlert, setSuccessAlert, handleMessage, setAlertActivate, alertActivate,
+    const { user, router, setSuccessAlert, handleMessage, setAlertActivate, alertActivate, updateMode, setUpdateMode,
+        idForUpdate, setIdForUpdate,
         errMsg, } = useAuth();
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
 
+
+    console.log(updateMode, idForUpdate)
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
 
@@ -21,6 +24,33 @@ const addData = () => {
 
     };
     // console.log(serverTimestamp())
+    const handleUpdate = async () => {
+        let dateObj = new Date(),
+            month = dateObj.toLocaleString("default", { month: "short" }),
+            day = dateObj.getDate(),
+            year = dateObj.getFullYear();
+        if (title == "" || desc == "") {
+            setAlertActivate(true);
+            handleMessage("input field should not empty");
+
+        }
+        else {
+            try {
+                const res =
+                    await setDoc(doc(db, "blogs", idForUpdate), {
+                        title: title, desc: desc, timestamp: serverTimestamp(), authorId: user.uid, author: user.email, day: day, month: month, year: year
+                    });
+                setAlertActivate(false);
+                router.push('/blog')
+                setTitle("")
+                setDesc("")
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+
+    }
     const handleAdd = async () => {
         let dateObj = new Date(),
             month = dateObj.toLocaleString("default", { month: "short" }),
@@ -53,7 +83,9 @@ const addData = () => {
                 <header className="flex justify-end items-center p-4">
                     <button className="flex justify-between items-center border-2 border-sky-600 rounded-lg px-4 py-2 text-sky-600" onClick={() => {
                         router.push('/blog');
-                        setSuccessAlert(false)
+                        setSuccessAlert(false);
+                        setUpdateMode(false);
+                        setIdForUpdate('')
                     }}>
                         <KeyboardBackspaceIcon />
                         <p>Back to Blog Page</p>
@@ -74,8 +106,9 @@ const addData = () => {
                     <Input type="text"
                         placeholder="Enter your title here" width="w-1/2" handleChange={handleTitleChange} value={title} />
                     <textarea placeholder="Enter your desc here " className="w-1/2 outline-none border border-1 border-gray-400 rounded-md p-2" onChange={handleDescChange} value={desc} />
-                    <button className="w-1/2 bg-blue-700 text-white p-2 rounded-md hover:bg-blue-600 transition-all duration-300" onClick={handleAdd} >
-                        Add
+                    <button className="w-1/2 bg-blue-700 text-white p-2 rounded-md hover:bg-blue-600 transition-all duration-300" onClick={updateMode ? handleAdd : handleUpdate} >
+                        {updateMode ? 'update' : 'Add'}
+
                     </button>
                 </section>
 

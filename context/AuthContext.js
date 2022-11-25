@@ -22,6 +22,9 @@ export const AuthContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([])
 
+  const [idForUpdate, setIdForUpdate] = useState('')
+  const [updateMode, setUpdateMode] = useState(false)
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -71,7 +74,9 @@ export const AuthContextProvider = ({ children }) => {
     setAlertActivate,
     successAlert,
     setSuccessAlert,
-    data, setData
+    data, setData,
+    updateMode, setUpdateMode,
+    idForUpdate, setIdForUpdate
   };
 
   return (
