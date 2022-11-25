@@ -13,7 +13,7 @@ const Card = ({ title, desc, authorName, day, month, year, id }) => {
   const handleDelete = async () => {
     try {
       await deleteDoc(doc(db, "blogs", id));
-      toast("Deleted");
+      toast("Deleted", { autoClose: 1000 });
     } catch (error) {
       console.log(error);
     }
