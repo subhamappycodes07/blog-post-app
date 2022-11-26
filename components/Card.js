@@ -4,21 +4,26 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useAuth } from "../context/AuthContext";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../config/firebase";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 const Card = ({ title, desc, authorName, day, month, year, id }) => {
   const { user, router, setUpdateMode,
-    setIdForUpdate } = useAuth();
+    setIdForUpdate, data, setTitle, setDesc, ToastContainer, toast } = useAuth();
   const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, "blogs", id));
-      toast("Deleted", { autoClose: 1000 });
+      await deleteDoc(doc(db, "blogs", id))
+      toast.success("Deleted Successfully", { autoClose: 100 })
     } catch (error) {
       console.log(error);
     }
   };
   const handleEdit = () => {
+    data.forEach((item) => {
+      if (item.id == id) {
+        setTitle(item.title)
+        setDesc(item.desc)
+      }
+    })
     setUpdateMode(true)
     setIdForUpdate(id)
     router.push('/addData')

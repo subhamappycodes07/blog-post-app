@@ -2,16 +2,15 @@ import React, { useState } from 'react'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useAuth } from '../context/AuthContext';
 import Input from '../components/Input';
-import { serverTimestamp, collection, addDoc } from "firebase/firestore";
+import { serverTimestamp, collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { db } from '../config/firebase';
 import AlertBox from '../components/AlertBox';
 
+
 const addData = () => {
     const { user, router, setSuccessAlert, handleMessage, setAlertActivate, alertActivate, updateMode, setUpdateMode,
-        idForUpdate, setIdForUpdate,
-        errMsg, } = useAuth();
-    const [title, setTitle] = useState("");
-    const [desc, setDesc] = useState("");
+        idForUpdate, setIdForUpdate, errMsg, data, title, setTitle, desc, setDesc, toast } = useAuth();
+
 
 
     console.log(updateMode, idForUpdate)
@@ -24,6 +23,8 @@ const addData = () => {
 
     };
     // console.log(serverTimestamp())
+
+
     const handleUpdate = async () => {
         let dateObj = new Date(),
             month = dateObj.toLocaleString("default", { month: "short" }),
@@ -37,13 +38,17 @@ const addData = () => {
         else {
             try {
                 const res =
-                    await setDoc(doc(db, "blogs", idForUpdate), {
+                    await updateDoc(doc(db, "blogs", idForUpdate), {
                         title: title, desc: desc, timestamp: serverTimestamp(), authorId: user.uid, author: user.email, day: day, month: month, year: year
                     });
+                res ?
+                    toast("Updated Successfully", { autoClose: 100 }) : "";
                 setAlertActivate(false);
                 router.push('/blog')
                 setTitle("")
                 setDesc("")
+                setIdForUpdate("")
+                setUpdateMode(false)
             } catch (error) {
                 console.log(error);
             }
@@ -51,6 +56,9 @@ const addData = () => {
 
 
     }
+    // const handleUpdate = () => {
+    //     console.log("do")
+    // }
     const handleAdd = async () => {
         let dateObj = new Date(),
             month = dateObj.toLocaleString("default", { month: "short" }),
@@ -66,6 +74,8 @@ const addData = () => {
                 const res = await addDoc(collection(db, "blogs",), {
                     title: title, desc: desc, timestamp: serverTimestamp(), authorId: user.uid, author: user.email, day: day, month: month, year: year
                 });
+                res ?
+                    toast("Added Successfully", { autoClose: 100 }) : "";
                 setAlertActivate(false);
                 router.push('/blog')
                 setTitle("")
@@ -106,7 +116,7 @@ const addData = () => {
                     <Input type="text"
                         placeholder="Enter your title here" width="w-1/2" handleChange={handleTitleChange} value={title} />
                     <textarea placeholder="Enter your desc here " className="w-1/2 outline-none border border-1 border-gray-400 rounded-md p-2" onChange={handleDescChange} value={desc} />
-                    <button className="w-1/2 bg-blue-700 text-white p-2 rounded-md hover:bg-blue-600 transition-all duration-300" onClick={updateMode ? handleAdd : handleUpdate} >
+                    <button className="w-1/2 bg-blue-700 text-white p-2 rounded-md hover:bg-blue-600 transition-all duration-300" onClick={updateMode ? handleUpdate : handleAdd} >
                         {updateMode ? 'update' : 'Add'}
 
                     </button>
@@ -114,6 +124,7 @@ const addData = () => {
 
             </div>
         </section>
+
     )
 }
 

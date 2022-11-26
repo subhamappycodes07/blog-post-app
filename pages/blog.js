@@ -38,9 +38,9 @@ const blog = () => {
 
   }, [])
 
-  useEffect(() => {
-    console.log(data);
-  }, [data])
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data])
   return (
     <>
       <section>{user ? <div>

@@ -7,6 +7,8 @@ import {
 } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
@@ -24,6 +26,8 @@ export const AuthContextProvider = ({ children }) => {
 
   const [idForUpdate, setIdForUpdate] = useState('')
   const [updateMode, setUpdateMode] = useState(false)
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -76,7 +80,10 @@ export const AuthContextProvider = ({ children }) => {
     setSuccessAlert,
     data, setData,
     updateMode, setUpdateMode,
-    idForUpdate, setIdForUpdate
+    idForUpdate, setIdForUpdate,
+    desc, setDesc,
+    title, setTitle,
+    ToastContainer, toast
   };
 
   return (
