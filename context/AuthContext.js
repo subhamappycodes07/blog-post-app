@@ -7,8 +7,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { useRouter } from "next/router";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
@@ -22,10 +21,10 @@ export const AuthContextProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
 
-  const [idForUpdate, setIdForUpdate] = useState('')
-  const [updateMode, setUpdateMode] = useState(false)
+  const [idForUpdate, setIdForUpdate] = useState("");
+  const [updateMode, setUpdateMode] = useState(false);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
 
@@ -61,8 +60,8 @@ export const AuthContextProvider = ({ children }) => {
     let alertMsg = authCode;
     alertMsg == "too-many-requests"
       ? setErrMsg(
-        "credentials did not match please create an account or try again few min later"
-      )
+          "credentials did not match please create an account or try again few min later"
+        )
       : setErrMsg(alertMsg);
   };
   const value = {
@@ -78,12 +77,16 @@ export const AuthContextProvider = ({ children }) => {
     setAlertActivate,
     successAlert,
     setSuccessAlert,
-    data, setData,
-    updateMode, setUpdateMode,
-    idForUpdate, setIdForUpdate,
-    desc, setDesc,
-    title, setTitle,
-    ToastContainer, toast
+    data,
+    setData,
+    updateMode,
+    setUpdateMode,
+    idForUpdate,
+    setIdForUpdate,
+    desc,
+    setDesc,
+    title,
+    setTitle,
   };
 
   return (

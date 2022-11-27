@@ -34,7 +34,9 @@ const Login = () => {
     if (name == "" || pass == "") {
       handleMessage("input field should not empty");
       setAlertActivate(true);
-      setTimeout(() => { setAlertActivate(false) }, 3000)
+      setTimeout(() => {
+        setAlertActivate(false);
+      }, 3000);
     } else if (name != "" && pass != "") {
       try {
         await login(name, pass);
@@ -43,14 +45,16 @@ const Login = () => {
         let err = e.code.split("auth/")[1];
         handleMessage(err);
         setAlertActivate(true);
-        setTimeout(() => { setAlertActivate(false) }, 3000)
+        setTimeout(() => {
+          setAlertActivate(false);
+        }, 3000);
       }
     }
   };
 
   return (
     <>
-      <div className=" h-screen flex flex-col justify-center items-center ">
+      <div className=" flex flex-col justify-center items-center mt-40 ">
         <header>
           <h1 className="font-medium text-3xl">Log In</h1>
         </header>

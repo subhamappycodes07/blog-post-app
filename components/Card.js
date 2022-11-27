@@ -1,18 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAuth } from "../context/AuthContext";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
-
 const Card = ({ title, desc, authorName, day, month, year, id }) => {
-  const { user, router, setUpdateMode,
-    setIdForUpdate, data, setTitle, setDesc, ToastContainer, toast } = useAuth();
+  const {
+    user,
+    router,
+    setUpdateMode,
+    setIdForUpdate,
+    data,
+    setTitle,
+    setDesc,
+  } = useAuth();
   const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, "blogs", id))
-      toast.success("Deleted Successfully", { autoClose: 100 })
+      await deleteDoc(doc(db, "blogs", id));
     } catch (error) {
       console.log(error);
     }
@@ -20,17 +25,17 @@ const Card = ({ title, desc, authorName, day, month, year, id }) => {
   const handleEdit = () => {
     data.forEach((item) => {
       if (item.id == id) {
-        setTitle(item.title)
-        setDesc(item.desc)
+        setTitle(item.title);
+        setDesc(item.desc);
       }
-    })
-    setUpdateMode(true)
-    setIdForUpdate(id)
-    router.push('/addData')
+    });
+    setUpdateMode(true);
+    setIdForUpdate(id);
+    router.push("/addData");
   };
   return (
     <>
-      <div className=" border-2 border-sky-500 p-4 w-1/4 flex flex-col gap-2 rounded-lg">
+      <div className=" border-2 border-sky-500 p-4  flex flex-col gap-2 rounded-lg">
         <h1 className="font-mono font-bold">{title}</h1>
         <section className="flex-1">
           <p>{desc}</p>
@@ -61,7 +66,6 @@ const Card = ({ title, desc, authorName, day, month, year, id }) => {
           )}
         </footer>
       </div>
-      <ToastContainer />
     </>
   );
 };
